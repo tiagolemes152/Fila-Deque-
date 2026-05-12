@@ -15,11 +15,19 @@ class LinkedList {
         return this.#head === null;
     }
 
-
-    addFirst(novoDado) {
-        const novoNo = new No(novoDado);
-        // continuar
+addFirst(novoDado) {
+    const novoNo = new No(novoDado);
+    if (this.isEmpty()) {
+        this.#head = novoNo;
+        this.#tail = novoNo;
+    } else {
+        novoNo.proximo = this.#head;
+        this.#head.anterior = novoNo;
+        this.#head = novoNo;
     }
+    this.#qtd++;
+    return true;
+}
 
 
     addLast(novoDado) {
@@ -105,5 +113,8 @@ class LinkedList {
         }
         return retorno + "|";
     }
-    //----------------   
+    //----------------  
+    get head() {
+    return this.#head;
+} 
 }
