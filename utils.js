@@ -1,16 +1,16 @@
 //--------------------------------------------------------------------------------------------
-  //FUNÇÕES COMPLEMENTARES PARA A APLICAÇÃO
- //-----------------------------------------
- 
- // funcao data
- function obterDataAtual() {
-    let dataAtual = new Date();
-    let dia = dataAtual.getDate();
-    let mes = dataAtual.getMonth() + 1; // Adiciona 1 porque o mês inicia do zero
-    let ano = dataAtual.getFullYear();
-    // Formata a data como "dd/mm/aaaa"
-    let dataFormatada = `${dia.toString().padStart(2, '0')}/${mes.toString().padStart(2, '0')}/${ano}`;
-    return dataFormatada;
+//FUNÇÕES COMPLEMENTARES PARA A APLICAÇÃO
+//-----------------------------------------
+
+// funcao data
+function obterDataAtual() {
+  let dataAtual = new Date();
+  let dia = dataAtual.getDate();
+  let mes = dataAtual.getMonth() + 1; // Adiciona 1 porque o mês inicia do zero
+  let ano = dataAtual.getFullYear();
+  // Formata a data como "dd/mm/aaaa"
+  let dataFormatada = `${dia.toString().padStart(2, '0')}/${mes.toString().padStart(2, '0')}/${ano}`;
+  return dataFormatada;
 }
 //--------------------------------------------------------------------------------------------
 function obterHoraAtual() {
@@ -24,13 +24,13 @@ function obterHoraAtual() {
 function calcularDiferencaHoras(hora1, hora2) {
   const [h1, m1, s1] = hora1.split(':').map(Number);
   const [h2, m2, s2] = hora2.split(':').map(Number);
-  
+
   const diferencaSegundos = (h2 * 3600 + m2 * 60 + s2) - (h1 * 3600 + m1 * 60 + s1);
-  
+
   const horas = Math.floor(diferencaSegundos / 3600);
   const minutos = Math.floor((diferencaSegundos % 3600) / 60);
   const segundos = diferencaSegundos % 60;
-  
+
   return `${horas.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
 }
 //--------------------------------------------------------------------------------------------
@@ -70,14 +70,14 @@ function comparaTarefasDataHora(tarefa1, tarefa2) {
 function saveLinkedListToLocalStorage() {
   console.log("saveLinkedListToLocalStorage");
   let listaParaSalvar = [];
-  for(const item of minhaLista){
-      listaParaSalvar.push({
-          _descricao: item.descricao,
-          _prioridade: item.prioridade,
-          _data: item.data,
-          _hora: item.hora
-      });
-      console.log(item.toString());
+  for (const item of minhaLista) {
+    listaParaSalvar.push({
+      _descricao: item.descricao,
+      _prioridade: item.prioridade,
+      _data: item.data,
+      _hora: item.hora
+    });
+    console.log(item.toString());
   };
   let jsonStr = JSON.stringify(listaParaSalvar);
   console.log(jsonStr);
@@ -89,15 +89,46 @@ function loadLinkedListFromLocalStorage() {
   console.log("loadLinkedListFromLocalStorage");
   let jsonStr = localStorage.getItem('myLinkedList');
   if (jsonStr) {
-      let listaCarregada = JSON.parse(jsonStr);
-      for (let i = 0; i < listaCarregada.length; i++) {
-          let obj = listaCarregada[i];
-          let novaTarefa = new Tarefa(obj._descricao, obj._prioridade, obj._data, obj._hora);
-          console.log(novaTarefa.toString());
-          minhaLista.addLast(novaTarefa);
-      }
-      atualizarLista();
-      alert("Lista carregada com sucesso!");
+    let listaCarregada = JSON.parse(jsonStr);
+    for (let i = 0; i < listaCarregada.length; i++) {
+      let obj = listaCarregada[i];
+      let novaTarefa = new Tarefa(obj._descricao, obj._prioridade, obj._data, obj._hora);
+      console.log(novaTarefa.toString());
+      minhaLista.addLast(novaTarefa);
+    }
+    atualizarLista();
+    alert("Lista carregada com sucesso!");
   }
 }
 //----------  ----------------------------------------------------------------------------------
+function isMenor(data1, hora1, data2, hora2) {
+  const dataHora1 = new Date(`${converterDataFormatoISO8601(data1)}T${hora1}`);
+  const dataHora2 = new Date(`${converterDataFormatoISO8601(data2)}T${hora2}`);
+  return dataHora1.getTime() < dataHora2.getTime();
+}
+
+
+
+
+function tarefaMaisAntiga() {
+  // 1. Se a lista estiver vazia, avisa o usuário e para a execução
+  if (minhaLista.isEmpty()) {
+    return alert("Lista de Tarefas Vazia");
+  }
+
+  // 2. Começamos assumindo que a primeira tarefa da lista é a mais antiga
+  let maisAntiga = minhaLista.getFirst();
+
+  // 3. Percorremos toda a lista comparando uma a uma
+  for (const tarefaAtual of minhaLista) {
+    // A função isMenor(data1, hora1, data2, hora2) verifica se o primeiro parâmetro é mais antigo que o segundo.
+    // Se a tarefaAtual foi criada ANTES da nossa "maisAntiga" atual, ela assume o posto.
+    if (isMenor(tarefaAtual.data, tarefaAtual.hora, maisAntiga.data, maisAntiga.hora)) {
+      maisAntiga = tarefaAtual;
+    }
+  }
+
+  // 4. Exibe o resultado final para o usuário
+  // Usei o .descricao para mostrar o nome amigável, mas você pode usar o .toString() se preferir ver os metadados
+  alert(`A tarefa há mais tempo na fila é: "${maisAntiga.descricao}"\nCriada em: ${maisAntiga.data} às ${maisAntiga.hora}`);
+}

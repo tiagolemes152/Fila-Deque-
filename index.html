@@ -47,59 +47,62 @@
               </div>
               <div class="card-body p-4">
                 <form>
-                  <div class="mb-3">
-                    <label for="txtnovaTarefa" class="form-label fw-semibold">
-                      <i class="fas fa-edit me-1"></i>Descrição da Tarefa
-                    </label>
-                    <input type="text" class="form-control form-control-lg" id="txtnovaTarefa" placeholder="Digite a descrição da tarefa...">
-                  </div>
-                  
-                  <div class="mb-3">
-                    <label for="txtnovaPrioridade" class="form-label fw-semibold">
-                      <i class="fas fa-exclamation-triangle me-1"></i>Prioridade
-                    </label>
-                    <input type="number" class="form-control form-control-lg" id="txtnovaPrioridade" placeholder="1 = Alta, 2 = Média, 3 = Baixa" min="1" max="3">
-                  </div>
-                  
-                  <div class="mb-4">
-                    <label for="txtIndice" class="form-label fw-semibold">
-                      <i class="fas fa-list-ol me-1"></i>Índice (opcional)
-                    </label>
-                    <input type="number" class="form-control form-control-lg" id="txtIndice" placeholder="Posição na lista..." min="0">
-                  </div>
+                 <div class="mb-3">
+  <label for="txtnovaTarefa" class="form-label fw-semibold">
+    <i class="fas fa-edit me-1"></i>Descrição da Tarefa
+  </label>
+  <input type="text" class="form-control form-control-lg" id="txtnovaTarefa" placeholder="Digite a descrição da tarefa...">
+</div>
+
+<div class="mb-3">
+  <label for="txtnovaPrioridade" class="form-label fw-semibold">
+    <i class="fas fa-exclamation-triangle me-1"></i>Prioridade
+  </label>
+  <input type="number" class="form-control form-control-lg" id="txtnovaPrioridade" placeholder="1 = Alta, 2 = Média, 3 = Baixa" min="1" max="3">
+</div>
+
+<!-- AQUI: O campo txtIndice que estava faltando -->
+<div class="mb-4">
+  <label for="txtIndice" class="form-label fw-semibold">
+    <i class="fas fa-list-ol me-1"></i>Índice (Opcional para inserção específica)
+  </label>
+  <input type="number" class="form-control form-control-lg" id="txtIndice" placeholder="Digite a posição na lista..." min="0">
+</div>
 
                   <!-- Action Buttons -->
-                  <div class="row g-2 mb-3">
-                    <div class="col-6">
-                      <button type="button" class="btn btn-success btn-lg w-100" onclick="adicionarElementoInicio()">
-                        <i class="fas fa-angle-double-up me-1"></i>Início
-                      </button>
-                    </div>
-                    <div class="col-6">
-                      <button type="button" class="btn btn-success btn-lg w-100" onclick="adicionarElementoFinal()">
-                        <i class="fas fa-angle-double-down me-1"></i>Final
-                      </button>
-                    </div>
-                    <div class="col-12">
-                      <button type="button" class="btn btn-info btn-lg w-100" onclick="adicionarIndice()">
-                        <i class="fas fa-crosshairs me-1"></i>Adicionar no Índice
-                      </button>
-                    </div>
-                  </div>
+                 <!-- Botão Único de Inserção Inteligente -->
+<div class="row g-2 mb-3">
+  <div class="col-12">
+    <button type="button" class="btn btn-success btn-lg w-100" onclick="adicionarElementoInicio()">
+      <i class="fas fa-plus-circle me-1"></i>Adicionar Tarefa
+    </button>
+  </div>
+</div>
 
-                  <!-- Remove Buttons -->
-                  <div class="row g-2 mb-3">
-                    <div class="col-6">
-                      <button type="button" class="btn btn-outline-danger w-100" onclick="removerElementoInicio()">
-                        <i class="fas fa-minus-circle me-1"></i>Remover Início
-                      </button>
-                    </div>
-                    <div class="col-6">
-                      <button type="button" class="btn btn-outline-danger w-100" onclick="removerElementoFinal()">
-                        <i class="fas fa-minus-circle me-1"></i>Remover Final
-                      </button>
-                    </div>
-                  </div>
+<!-- Botão Único de Remoção (Atendimento da Fila) -->
+<div class="row g-2 mb-3">
+  <div class="col-12">
+    <button type="button" class="btn btn-outline-danger w-100" onclick="removerElementoInicio()">
+      <i class="fas fa-check-double me-1"></i>Concluir Próxima Tarefa
+    </button>
+  </div>
+</div>
+<!-- Adicione isso logo abaixo dos outros botões de remoção -->
+<div class="row g-2 mb-3">
+  <div class="col-12">
+    <button type="button" class="btn btn-danger w-100" onclick="removerPorIndiceDigitado()">
+      <i class="fas fa-trash-alt me-1"></i>Remover pelo Índice Digitado
+    </button>
+  </div>
+
+  <div class="col-12">
+    <button type="button" class="btn btn-warning w-100" onclick="mostrarProximaTarefa()">
+      <i class="fas fa-eye me-1"></i>Espiar Próxima Tarefa
+    </button>
+  </div>
+</div>
+
+
 
                   <!-- Storage Buttons -->
                   <div class="row g-2">
@@ -113,6 +116,11 @@
                         <i class="fas fa-upload me-1"></i>Carregar
                       </button>
                     </div>
+                    <div class="col-12 mt-2">
+                    <button type="button" class="btn btn-info text-white w-100" onclick="tarefaMaisAntiga()">
+                      <i class="fas fa-clock me-1"></i>Ver Tarefa Mais Antiga
+                    </button>
+                  </div>
                   </div>
                 </form>
               </div>
